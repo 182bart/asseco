@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center mt-5 pt-5">
+  <!-- from with login data -->
+  <form
+    [formGroup]="loginForm"
+    class="col-4 fs-5 fw-bold bg-opacity-50 bg-black rounded p-5 mt-5">
+    <div class="mb-3">
+      <!-- login name -->
+      <label for="username" class="form-label"> Login</label>
+      <input
+        required
+        type="text"
+        formControlName="username"
+        class="form-control"
+        placeholder="login"/>
+      <p
+        class="fs-6 text-warning mt-4"
+        *ngIf="log && loginForm.get('username').errors?.['required']" >
+        Login jest wymagany!
+      </p>
+    </div>
+    <!-- password -->
+    <div class="mb-5">
+      <label for="password" class="form-label mt-2"> Hasło</label>
+      <input
+        required
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        class="form-control"/>
+      <p
+        *ngIf="log && loginForm.get('password').errors?.['required']"
+        class="fs-6 text-warning mt-4">
+        Hasło jest wymagane
+      </p>
+    </div>
+    <!-- check login data -->
+    <button
+      class="btn btn-dark px-5 fw-bold fs-5 my-3 d-block border border-info text-info"
+      (click)="login()">
+      Login
+    </button>
+    <p class="fs-6 text-warning mt-4" *ngIf="notCorrect">
+      Login lub Hasło jest nie właściwe
+    </p>
+  </form>
+</div>

@@ -1,0 +1,96 @@
+<!-- Add model -->
+<div class="">
+  <div class="">
+    <label
+      for="file"
+      class="btn btn-dark text-uppercase fs-6 fw-bold border border-info text-info">
+      Dodaj nowy model
+    </label>
+    <input
+      type="file"
+      id="file"
+      accept=".yml"
+      name="currentInput"
+      [(ngModel)]="currentInput"
+      (change)="addModel($event)"
+      style="display: none"/>
+    <span class="ms-2" *ngIf="loanding">
+      Wczytywanie
+      <span class="ms-1 spinner-border spinner-border-sm text-info"></span>
+    </span>
+    <span class="ms-2" *ngIf="added"> Dodano: {{ modelName }}</span>
+  </div>
+
+  <!-- List of models -->
+  <ul class="p-0 pt-5 d-flex flex-wrap" *ngIf="modelList.length">
+    <li
+      class="card bg-opacity-50 bg-black me-4 mb-4"
+      *ngFor="let model of modelList">
+      <!-- card with model -->
+      <div class="card-body">
+        <h5 class="card-title text-uppercase fw-bold mb-4 mt-2">
+          {{ model.nazwa }}
+        </h5>
+        <!-- Model data -->
+        <div>
+          <p class="text-uppercase mb-1">Parametry modelu:</p>
+          <ul class="lh mb-3">
+            <li>Status:</li>
+            <li>Data ewaluacji: {{ model.data_na }}</li>
+            <li>Kroswalidacja: {{ model.cv_folds }}</li>
+            <li>Liczba użytych drzew: {{ model.n_trees }}</li>
+            <li>Frakcja testowa: {{ model.frakcja_testowa }}</li>
+          </ul>
+
+          <button
+            class="btn btn-dark fs-6 border border-info text-info"
+            (click)="calculateFraud(model)">
+            wywołanie predykcji
+          </button>
+          <span *ngIf="model.fraud" class="ms-3">= {{ model.fraud }}</span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-group dropdown fs-6 mt-3" role="group">
+          <ng-container>
+            <button
+              type="button"
+              class="btn btn btn-dark border border-info text-info dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              cechy
+            </button>
+            <ul
+              class="dropdown-menu bg-dark border border-info overflow-auto characteristics"
+              aria-labelledby="dropdownMenuButton1"
+              *ngIf="modelList.length">
+              <li
+                class="ms-2 me-3 text-white"
+                *ngFor="let cechy of model.cechy; let i = index">
+                {{ model.cechy_all[i] }}
+              </li>
+            </ul>
+          </ng-container>
+          <button
+            type="button"
+            class="btn btn-dark border border-info text-info">
+            <a
+              class="link-info text-decoration-none"
+              routerLink="/report/{{ model.nazwa }}"
+              target="blank">
+              raport
+            </a>
+          </button>
+          <button
+            type="button"
+            class="btn btn-dark text-info border border-info"
+            (click)="removeModel(model)">
+            usuń model
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
